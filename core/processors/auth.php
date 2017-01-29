@@ -5,7 +5,7 @@
  * Date: 03.01.2017
  * Time: 21:11
  */
-
+/*
 header('Content-Type: application/json');
 $output = array();
 
@@ -18,3 +18,18 @@ if (isset($_SESSION['userID'])){
 }
 
 echo json_encode($output);
+
+*/
+
+class Auth{
+    private $sessionId;
+    static $userid;
+
+    public function __construct($pdo, $sessionId){
+        $this->sessionId = $sessionId;
+
+    }
+
+
+
+}

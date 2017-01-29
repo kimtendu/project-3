@@ -4,8 +4,9 @@
 
 var app = angular.module('courcesapp', ['ngRoute']);
 
+// config app
 app.config(function( $routeProvider, $httpProvider ){
-    console.log('config');
+    //console.log('config');
     $routeProvider
         .when('/',{
             templateUrl : 'assets/dashboard.html',
@@ -18,18 +19,21 @@ app.config(function( $routeProvider, $httpProvider ){
     $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 });
 
+
 app.run(function($rootScope, $http, $location){
     console.log('run');
     //$rootScope.authenticated
     $http({
-        url: 'core/processors/auth.php'
+        url: 'core/auth/'
     }).then(function successCallback(response) {
         $rootScope.authenticated = response.data;
-        if (response.data.error){
+        if (response.data == false){
             $location.path( "/login" );
+            console.log(response.data)
         }
     }, function errorCallback(response) {
-        $rootScope.authenticated = false;
+        $rootScope.authenticated = response;
+        console.log(response.data)
     });
 
 })
@@ -38,33 +42,49 @@ app.controller('UsersController', [ '$rootScope', '$scope', '$http', UsersContro
 
 
 
-function UsersController($rootScope, $scope, $http){
+function UsersController($rootScope, $scope, $http, $location){
 
     $scope.cources = 'test';
 
-    $scope.user = $rootScope.authenticated;
+    //$scope.user = $rootScope.authenticated;
 
-    $http({
+    $scope.login = function(user){
+        console.log(user);
+        $http({
+            url: 'core/auth/',
+            method: "POST",
+            data: { 'userEmail' : user.email, 'userPassword' : user.password }
+        }).then(function successCallback(response){
+            console.log(response);
+           // if(response.data) $location.path("/");
+        })
 
-        method: 'GET',
-        params: { id: 'test' },
-        url: 'core/processor.php'
-    }).then(function successCallback(response) {
-        $scope.cources = response;
-        // this callback will be called asynchronously
-        // when the response is available
-    }, function errorCallback(response) {
-        $scope.cources = response;
 
-    });
+    };
+
     /*
+
+     $http({
+
+     method: 'GET',
+     params: { id: 'test' },
+     url: 'core/processor.php'
+     }).then(function successCallback(response) {
+     $scope.cources = response;
+     // this callback will be called asynchronously
+     // when the response is available
+     }, function errorCallback(response) {
+     $scope.cources = response;
+
+     });
+
     $http.get('./core/question.json').success(function(data) {
         $scope.cources=data.question;
     });
      */
 
 
-    function login(){};
+
 
     function getStudentsList(){};
 
