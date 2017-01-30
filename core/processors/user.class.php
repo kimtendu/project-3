@@ -44,24 +44,31 @@ class User
     public function addUser(){
     }
 
-    public static function getAllUsers() {
+    public function getAllUsers() {
 
-        return false;
+        $statement = $this->pdo->prepare("SELECT * FROM users");
+        $statement->execute();
+        $results=$statement->fetchAll(PDO::FETCH_ASSOC);
+        #$json=json_encode($results['0']['name']);
+        $json=json_encode($results);
+        return $json;
     }
 
     public function deleteUser(){}
 
-    public function isAuth(){
-        $statement= $this->pdo->prepare("SELECT * FROM users WHERE password =:password AND email=:email");
-        $statement->bindParam(':email', $this->userEmail, PDO::PARAM_INT);
-        $statement->bindParam(':password', $this->userPassword, PDO::PARAM_INT);
+    public function logIn(){
+        $statement= $this->pdo->prepare("SELECT * FROM users WHERE email=:email AND password=:password");
+        $statement->bindParam(':email', $this->userEmail);
+        #$statement->bindParam(':password', $this->userPassword);
         $statement->execute();
         $results=$statement->fetchAll(PDO::FETCH_ASSOC);
+        #$json=json_encode($results['0']['name']);
         $json=json_encode($results);
         return $json;
 
+    }
 
-
+    public function isAuth(){
 
     }
 

@@ -2,7 +2,7 @@
  * Created by kimtendu on 03.01.2017.
  */
 
-var app = angular.module('courcesapp', ['ngRoute']);
+var app = angular.module('courcesapp', ['ngRoute', 'ngCookies']);
 
 // config app
 app.config(function( $routeProvider, $httpProvider ){
@@ -19,7 +19,7 @@ app.config(function( $routeProvider, $httpProvider ){
     $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 });
 
-
+/*
 app.run(function($rootScope, $http, $location){
     console.log('run');
     //$rootScope.authenticated
@@ -37,30 +37,55 @@ app.run(function($rootScope, $http, $location){
     });
 
 })
-app.controller('UsersController', [ '$rootScope', '$scope', '$http', UsersController]);
+*/
+app.controller('UsersController', [ '$scope', '$http', '$cookies', UsersController]);
 
 
+function UsersController($scope, $http, $cookies){
 
-
-function UsersController($rootScope, $scope, $http, $location){
-
-    $scope.cources = 'test';
-
-    //$scope.user = $rootScope.authenticated;
-
-    $scope.login = function(user){
-        console.log(user);
+    const sessionId = $cookies.get('PHPSESSID');
+    $scope.isLogin = false;
+    if(sessionId){
+        //login template
         $http({
-            url: 'core/auth/',
             method: "POST",
-            data: { 'userEmail' : user.email, 'userPassword' : user.password }
-        }).then(function successCallback(response){
-            console.log(response);
-           // if(response.data) $location.path("/");
-        })
+            params: {'userSession' : sessionId},
+            url: 'core/auth'
+        }).then(function successCallback(response) {
+            isLogin = response.data;
+        }, function errorCallback(response) {
+            isLogin = response.data;
+        });
+
+    }
 
 
-    };
+
+    //console.log(isLogin);
+    $scope.login = function(user){
+            console.log(user);
+            $http({
+                url: 'core/login/',
+                method: "POST",
+                data: { 'userEmail' : user.email, 'userPassword' : user.password }
+            }).then(function successCallback(response){
+                console.log(response);
+                // if(response.data) $location.path("/");
+            })
+
+
+        };
+
+
+    /*if ($scope.isLogin){
+        getAlluser
+
+
+
+    }
+    */
+
+
 
     /*
 

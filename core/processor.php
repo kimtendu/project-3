@@ -15,12 +15,13 @@ $tmpSessionId = session_id();
 session_start();
 $apiRequest = stristr( $_SERVER['REQUEST_URI'], 'core');
 
+
+
 switch ($apiRequest){
     case 'core/auth/': //auth
         $_POST = json_decode(file_get_contents('php://input'), true);
         $arr = array(
-            'userEmail' => $_POST['userEmail'],
-            'userPassword' =>$_POST['userPassword'],
+            'userSession' => $_POST['userSession'],
         );
         $user = new User($pdo, $tmpSessionId, $arr);
         $out =  $user->isAuth();
@@ -29,7 +30,18 @@ switch ($apiRequest){
 
         break;
 
-    case 'core/user': //get user
+    case 'core/login/': //login user
+        $_POST = json_decode(file_get_contents('php://input'), true);
+
+        $arr = array(
+            'userEmail' => $_POST['userEmail'],
+            'userPassword' =>$_POST['userPassword'],
+        );
+        $user = new User($pdo, $tmpSessionId, $arr);
+        $out =  $user->logIn();
+
+
+        echo $out;
 
         break;
 

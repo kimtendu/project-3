@@ -6,7 +6,6 @@
  * Time: 13:30
  */
 
-require_once('processors/courses.class.php');
 
 $host = 'localhost';
 $user = 'root';
