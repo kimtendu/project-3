@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Авнер
+ * User: kimtendu
  * Date: 25.01.2017
  * Time: 19:04
  */
@@ -14,12 +14,12 @@ class Courses
     private $courseImg;
     private $pdo;
 
-    public function __construct($pdo,$id){
+    public function __construct($pdo){
         $this->pdo = $pdo;
-        $this->id = $id;
+       // $this->id = $id;
     }
 
-    public function getAllCource(){
+    public function getAllCourses(){
         $statement= $this->pdo->prepare("SELECT * FROM course");
         $statement->execute();
         $results=$statement->fetchAll(PDO::FETCH_ASSOC);

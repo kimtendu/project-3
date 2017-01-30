@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Авнер
+ * User: пїЅпїЅпїЅпїЅпїЅ
  * Date: 25.01.2017
  * Time: 19:16
  */
@@ -19,6 +19,6 @@ $results=$statement->fetchAll(PDO::FETCH_ASSOC);
 $json=json_encode($results);
 
 echo'<pre>';
-print_r ($results['0']['name']);
+print_r ($_SERVER);
 echo '</pre>';
 #echo $_SERVER['REQUEST_FILENAME'];

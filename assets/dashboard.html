@@ -1,4 +1,4 @@
-<div class="container" ng-hide="isLogin">
+<div class="container" ng-hide="!isLogin">
     <div class="row">
         <form novalidate class="simple-form">
             <div class="form-group">
@@ -14,11 +14,12 @@
 
         </form>
 
+
     </div>
 </div>
 
 
-<div ng-hide="!isLogin">
+<div ng-hide="isLogin">
 <div class="container-fluid" >
     <nav class="container navbar ">
         <div class="row">
@@ -41,14 +42,25 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
-            list of cources
-            {{cources}}
+           <h2> list of courses </h2>
+            <div ng-repeat="course in courses track by course.id">
+                {{course.name}}
+            </div>
+
         </div>
         <div class="col-md-3">
-            list of user
+            <h2>List of all users </h2>
+           <div ng-repeat="userlist in allUsers track by userlist.id" ng-click="userdata(userlist)">
+                   <p>{{userlist.name}}</p>
+                   <p>{{userlist.email}}</p>
+           </div>
         </div>
         <div class="col-md-6">
-            main dachboeard
+            main dashboard
+            <div user-details ng-hide="!userDetails">
+                </div>
+
+            </div>
         </div>
     </div>
 

@@ -1,0 +1,54 @@
+<form novalidate class="simple-form">
+    <div class="form-group">
+        <label for="userId">UserId</label>
+        <input type="text" class="form-control" id="userId" placeholder="Email" ng-model="userDetails.id" >
+    </div>
+
+    <div class="form-group">
+        <label for="userCourseList">Course LIst</label>
+        <input type="text" class="form-control" id="userCourseList" placeholder="Email" ng-model="userDetails.courseslist">
+    </div>
+
+    <div class="form-group">
+        <label for="userActive">Active</label>
+        <input type="text" class="form-control" id="userActive" placeholder="Email" ng-model="userDetails.active" >
+    </div>
+
+    <div class="form-group">
+        <label for="userImage">image</label>
+        <input type="text" class="form-control" id="userImage" placeholder="Email" ng-model="userDetails.image" >
+    </div>
+
+    <div class="form-group">
+        <label for="userpassword">password</label>
+        <input type="text" class="form-control" id="userpassword" placeholder="Email" ng-model="userDetails.password" >
+    </div>
+
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email" ng-model="userDetails.email" >
+    </div>
+
+    <div class="form-group">
+        <label for="username">User name</label>
+        <input type="text" class="form-control" id="username" placeholder="Email" ng-model="userDetails.name">
+    </div>
+
+    <div class="form-group">
+        <label for="userPhone">User phone</label>
+        <input type="text" class="form-control" id="userPhone" placeholder="phone" ng-model="userDetails.phone" >
+    </div>
+
+
+    <div class="form-group">
+        <label for="userRole">User role</label>
+        <input type="text" class="form-control" id="userRole" placeholder="Email" ng-model="userDetails.role" >
+    </div>
+
+    <button type="submit" class="btn btn-default" ng-click ="editUserDetails(userDetails)">save</button>
+    <button type="submit" class="btn btn-default">Delete</button>
+
+
+</form>
+

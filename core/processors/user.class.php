@@ -21,14 +21,15 @@ class User
     private $pdo;
     private $test;
 
-    public function __construct($pdo, $sessionId,$arrInput){
+    public function __construct($pdo){
         $this->pdo = $pdo;
+        /*
         $this->userSession= $sessionId;
         #$this->test = $arrInput;
         $this->userEmail= $arrInput['userEmail'];
         $this->userPassword = $arrInput['userPassword'];
 
-        /*$this->userId = $arrInput['userId'];
+        $this->userId = $arrInput['userId'];
         $this->userName = $arrInput['userName'];
 
         $this->userEmail= $arrInput['userEmail'];
@@ -42,6 +43,30 @@ class User
     }
 
     public function addUser(){
+    }
+
+    public function editUser($arrInput){
+        $this->userEmail= $arrInput['userEmail'];
+        $this->userPassword = $arrInput['userPassword'];
+        $this->userId = $arrInput['userId'];
+        $this->userName = $arrInput['userName'];
+        $this->userImage = $arrInput['userImage'];
+        $this->userPhone= $arrInput['userPhone'];
+        $this->userActive = $arrInput['userActive'];
+        $this->userRole = $arrInput['userRole'];
+        $this->userCoursesList= $arrInput['userCoursesList'];
+
+        #$statement= $this->pdo->prepare("UPDATE users SET name=:userName, email=:userEmail, image=:userImage, phone=:userPhone, WHERE id=:id");
+        $statement= $this->pdo->prepare("UPDATE users SET name=:userName, email=:userEmail, image=:userImage, phone=:userPhone, WHERE id=:id");
+        $statement->bindParam(':userName', $this->userName);
+        #$statement->bindParam(':userEmail', $this->userEmail);
+        #$statement->bindParam(':userImage', $this->userImage);
+        #$statement->bindParam(':userPhone', $this->userPhone);
+        #$statement->bindParam(':id', $this->userId);
+        $statement->execute();
+        return true;
+
+
     }
 
     public function getAllUsers() {
@@ -59,7 +84,7 @@ class User
     public function logIn(){
         $statement= $this->pdo->prepare("SELECT * FROM users WHERE email=:email AND password=:password");
         $statement->bindParam(':email', $this->userEmail);
-        #$statement->bindParam(':password', $this->userPassword);
+        $statement->bindParam(':password', $this->userPassword);
         $statement->execute();
         $results=$statement->fetchAll(PDO::FETCH_ASSOC);
         #$json=json_encode($results['0']['name']);

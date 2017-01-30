@@ -40,6 +40,12 @@ app.run(function($rootScope, $http, $location){
 */
 app.controller('UsersController', [ '$scope', '$http', '$cookies', UsersController]);
 
+app.directive('userDetails', function(){
+    return{
+        templateUrl: 'assets/user-edit.html'
+    };
+})
+
 
 function UsersController($scope, $http, $cookies){
 
@@ -47,45 +53,53 @@ function UsersController($scope, $http, $cookies){
     $scope.isLogin = false;
     if(sessionId){
         //login template
+       /*
         $http({
+
             method: "POST",
             params: {'userSession' : sessionId},
-            url: 'core/auth'
+            url: 'core/auth/'
         }).then(function successCallback(response) {
             isLogin = response.data;
         }, function errorCallback(response) {
             isLogin = response.data;
         });
+        */
 
     }
 
 
+
+    getAllCourses();
+    getAllUsers();
+
+    $scope.userdata = function (user){
+        //console.log($scope.userDetails);
+        $scope.userDetails = user;
+        //console.log($scope.userDetails);
+    }
+
+    $scope.editUserDetails = function(userDetails){
+        $scope.userDetails = editUserDetails(userDetails);
+    }
+
+    
+    
 
     //console.log(isLogin);
     $scope.login = function(user){
             console.log(user);
             $http({
-                url: 'core/login/',
-                method: "POST",
-                data: { 'userEmail' : user.email, 'userPassword' : user.password }
-            }).then(function successCallback(response){
-                console.log(response);
-                // if(response.data) $location.path("/");
-            })
+            url: 'core/login/',
+            method: "POST",
+            data: { 'userEmail' : $scope.user.email, 'userPassword' : $scope.user.password }
+        }).then(function successCallback(response){
+            console.log(response);
+            // if(response.data) $location.path("/");
+        })
 
 
         };
-
-
-    /*if ($scope.isLogin){
-        getAlluser
-
-
-
-    }
-    */
-
-
 
     /*
 
@@ -109,7 +123,40 @@ function UsersController($scope, $http, $cookies){
      */
 
 
+    function getAllCourses(){
+        $http({
+            url: 'core/courses',
+            method: "POST"
+        }).then(function sucessCallback(response){
+            $scope.courses = response.data;
+            //console.log($scope.courses);
+        })
 
+    }
+
+    function getAllUsers(){
+        $http({
+            url: 'core/alluser',
+            method: "POST"
+        }).then(function sucessCallback(response){
+            $scope.allUsers = response.data;
+            //console.log($scope.allUsers);
+        })
+    }
+
+    function editUserDetails(userDetails){
+        $http({
+            url: 'core/user/edit',
+            method: "POST",
+            data: userDetails
+        }).then(function sucessCallback(response){
+            //console.log('sucess');
+            //console.log(response.data);
+            //console.log($scope.allUsers);
+            getAllUsers();
+        })
+        return userDetails;
+    };
 
     function getStudentsList(){};
 
@@ -119,7 +166,7 @@ function UsersController($scope, $http, $cookies){
 
     function createCource(){};
 
-    function editStudent(studentId){};
+
 
     function editCource(courceId){};
 

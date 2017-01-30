@@ -15,38 +15,80 @@ $tmpSessionId = session_id();
 session_start();
 $apiRequest = stristr( $_SERVER['REQUEST_URI'], 'core');
 
+#echo $apiRequest;
 
 
 switch ($apiRequest){
     case 'core/auth/': //auth
+
         $_POST = json_decode(file_get_contents('php://input'), true);
         $arr = array(
             'userSession' => $_POST['userSession'],
         );
-        $user = new User($pdo, $tmpSessionId, $arr);
-        $out =  $user->isAuth();
+        $user = new User($pdo);
+        $out =  $user->isAuth($tmpSessionId, $arr);
+
         echo $out;
 
 
         break;
 
     case 'core/login/': //login user
+
+
         $_POST = json_decode(file_get_contents('php://input'), true);
 
         $arr = array(
             'userEmail' => $_POST['userEmail'],
             'userPassword' =>$_POST['userPassword'],
         );
-        $user = new User($pdo, $tmpSessionId, $arr);
-        $out =  $user->logIn();
+        #$tmpSessionId = 1;
+        $user = new User($pdo);
+        $out =  $user->logIn($tmpSessionId, $arr);
 
 
         echo $out;
 
         break;
 
+    case 'core/alluser':
+
+        $user = new User($pdo);
+        $out = $user->getAllUsers();
+        echo $out;
+        break;
+
+    case 'core/user/edit':
+
+        $_POST =  json_decode(file_get_contents('php://input'), true);
+        $data = array(
+            'userEmail'  => $_POST['email'],
+            'userPassword'=> $_POST['password'],
+            'userId'=> $_POST['id'],
+            'userName'=> $_POST['name'],
+            'userImage'=> $_POST['image'],
+            'userPhone'=> $_POST['phone'],
+            'userActive'=> $_POST['active'],
+            'userRole'=> $_POST['role'],
+            'userCoursesList'=> $_POST['courseslist'],
+        );
+        $user = new User($pdo);
+        $out = $user->editUser($data);
+        echo json_encode($data);
+        break;
+
+    case 'core/courses':
+
+        $user = new Courses($pdo);
+        $out = $user->getAllCourses();
+        echo $out;
+        break;
+
+
+
 
 }
+
 
 
 
